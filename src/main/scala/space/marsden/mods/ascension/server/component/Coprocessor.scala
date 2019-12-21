@@ -202,16 +202,15 @@ class Coprocessor(var stack: ItemStack, val env: EnvironmentHost) extends Manage
     }
   }
 
-  @Callback(doc = """function():string; Invokes a RPC (remote procedure call) method on the coprocessor and returns the result""")
+  @Callback(doc = """function(value:string):boolean; Invokes a RPC (remote procedure call) method on the coprocessor.""")
   def call(context: Context, args: Arguments): Array[AnyRef] = {
-    try
+    try {
       // invoke the method on the coprocessor machine
-      //Object[] result = machine.invoke(value, method, args);
-      //return result;
-      throw new Exception("not implemented")
-    catch {
+      val res = machine.signal("rpc.call", args)
+      result(res)
+    } catch {
       case e: Exception =>
-        result(-1, "an unknown error occured")
+        result(false)
     }
   }
 }

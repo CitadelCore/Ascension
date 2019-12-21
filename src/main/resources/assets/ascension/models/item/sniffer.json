@@ -1,0 +1,6 @@
+{
+  "parent": "ascension:item/flat",
+  "textures": {
+    "layer0": "ascension:items/sniffer"
+  }
+}

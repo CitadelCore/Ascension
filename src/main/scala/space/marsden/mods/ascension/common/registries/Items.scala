@@ -22,7 +22,7 @@ import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.GameData
 import space.marsden.mods.ascension.{Ascension, Constants}
-import space.marsden.mods.ascension.common.items.CardCoprocessor
+import space.marsden.mods.ascension.common.items.{CardCoprocessor, CardSniffer}
 import space.marsden.mods.ascension.common.items.data.CoprocessorData
 import space.marsden.mods.chaoscore.items.oc.Delegator
 import space.marsden.mods.chaoscore.items.oc.traits.Delegate
@@ -208,6 +208,8 @@ object Items extends ItemAPI {
     registerItem(new CardCoprocessor(components, Tier.Two), Constants.ItemName.CoprocessorTier2)
     registerItem(new CardCoprocessor(components, Tier.Three), Constants.ItemName.CoprocessorTier3)
     registerItem(new CardCoprocessor(components, Tier.Four), Constants.ItemName.CoprocessorCreative)
+
+    registerItem(new CardSniffer(components, Tier.Three), Constants.ItemName.Sniffer)
 
     val misc: Delegator = newItem(new Delegator() {
       private def configuredItems: Array[ItemStack] = Array(

@@ -5,7 +5,7 @@ import li.cil.oc.api.driver.{DriverItem, EnvironmentProvider}
 import net.minecraft.block.Block
 import net.minecraft.item.Item
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
-import space.marsden.mods.ascension.common.drivers.DriverCardCoprocessor
+import space.marsden.mods.ascension.common.drivers.{DriverCardCoprocessor, DriverCardSniffer}
 import space.marsden.mods.ascension.common.registries.Items
 import space.marsden.mods.chaoscore.items.oc.traits.Delegate
 
@@ -33,6 +33,9 @@ class CommonProxy {
     // register GUI handlers here
     Driver.add(DriverCardCoprocessor)
     Driver.add(DriverCardCoprocessor.Provider)
+
+    Driver.add(DriverCardSniffer)
+    Driver.add(DriverCardSniffer.Provider)
   }
 
   def postInit(event: FMLPostInitializationEvent) : Unit = {

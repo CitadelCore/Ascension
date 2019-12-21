@@ -7,6 +7,9 @@ item.ascension.cardcoprocessor2.tip=It's a mini computer inside a computer!
 item.ascension.cardcoprocessor3.name=Coprocessor Card (Creative)
 item.ascension.cardcoprocessor3.tip=It's a mini computer inside a computer!
 
+item.ascension.cardsniffer2.name=Router Card
+item.ascension.cardsniffer2.tip=Allows sniffing and spoofing of network packets.
+
 itemGroup.tabAscension=Ascension
 
 asc:tooltip.coprocessor=This is a server, there are many like it, but this one can be upgraded with components much like a computer case can be. It can be run by inserting it into a server rack.
