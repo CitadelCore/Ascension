@@ -1,0 +1,13 @@
+item.ascension.cardcoprocessor0.name=Coprocessor Card (Tier 1)
+item.ascension.cardcoprocessor0.tip=It's a mini computer inside a computer!
+item.ascension.cardcoprocessor1.name=Coprocessor Card (Tier 2)
+item.ascension.cardcoprocessor1.tip=It's a mini computer inside a computer!
+item.ascension.cardcoprocessor2.name=Coprocessor Card (Tier 3)
+item.ascension.cardcoprocessor2.tip=It's a mini computer inside a computer!
+item.ascension.cardcoprocessor3.name=Coprocessor Card (Creative)
+item.ascension.cardcoprocessor3.tip=It's a mini computer inside a computer!
+
+itemGroup.tabAscension=Ascension
+
+asc:tooltip.coprocessor=This is a server, there are many like it, but this one can be upgraded with components much like a computer case can be. It can be run by inserting it into a server rack.
+asc:tooltip.coprocessor.Components=Installed components:

@@ -1,0 +1,1 @@
+This is a mod that adds a bunch of stuff, some of it OpenComputers related.

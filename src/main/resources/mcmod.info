@@ -1,0 +1,16 @@
+[
+{
+  "modid": "ascension",
+  "name": "Ascension",
+  "description": "From security chips to wave machines.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["CitadelCore"],
+  "credits": "Me",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
