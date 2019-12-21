@@ -7,6 +7,7 @@ import net.minecraft.item.Item
 import net.minecraftforge.fml.common.event.{FMLInitializationEvent, FMLPostInitializationEvent, FMLPreInitializationEvent}
 import space.marsden.mods.ascension.common.drivers.{DriverCardCoprocessor, DriverCardSniffer}
 import space.marsden.mods.ascension.common.registries.Items
+import space.marsden.mods.ascension.common.template.CoprocessorTemplate
 import space.marsden.mods.chaoscore.items.oc.traits.Delegate
 
 class CommonProxy {
@@ -30,7 +31,10 @@ class CommonProxy {
   }
 
   def init(event: FMLInitializationEvent): Unit = {
-    // register GUI handlers here
+    // register templates
+    CoprocessorTemplate.register()
+
+    // register drivers
     Driver.add(DriverCardCoprocessor)
     Driver.add(DriverCardCoprocessor.Provider)
 

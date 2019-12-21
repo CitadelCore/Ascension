@@ -22,7 +22,7 @@ import net.minecraft.util.NonNullList
 import net.minecraft.util.ResourceLocation
 import net.minecraftforge.registries.GameData
 import space.marsden.mods.ascension.{Ascension, Constants}
-import space.marsden.mods.ascension.common.items.{CardCoprocessor, CardSniffer}
+import space.marsden.mods.ascension.common.items.{CardCoprocessor, CardCoprocessorCase, CardSniffer}
 import space.marsden.mods.ascension.common.items.data.CoprocessorData
 import space.marsden.mods.chaoscore.items.oc.Delegator
 import space.marsden.mods.chaoscore.items.oc.traits.Delegate
@@ -201,7 +201,17 @@ object Items extends ItemAPI {
 
   // ----------------------------------------------------------------------- //
 
-  def init() {
+  // Crafting materials.
+  private def initMaterials(): Unit = {
+    val materials = newItem(new Delegator(), "material")
+
+    registerItem(new CardCoprocessorCase(materials, Tier.One), Constants.ItemName.CoprocessorCaseTier1)
+    registerItem(new CardCoprocessorCase(materials, Tier.Two), Constants.ItemName.CoprocessorCaseTier2)
+    registerItem(new CardCoprocessorCase(materials, Tier.Three), Constants.ItemName.CoprocessorCaseTier3)
+    registerItem(new CardCoprocessorCase(materials, Tier.Four), Constants.ItemName.CoprocessorCaseCreative)
+  }
+
+  private def initComponents(): Unit = {
     val components = newItem(new Delegator(), "component")
 
     registerItem(new CardCoprocessor(components, Tier.One), Constants.ItemName.CoprocessorTier1)
@@ -210,7 +220,9 @@ object Items extends ItemAPI {
     registerItem(new CardCoprocessor(components, Tier.Four), Constants.ItemName.CoprocessorCreative)
 
     registerItem(new CardSniffer(components, Tier.Three), Constants.ItemName.Sniffer)
+  }
 
+  private def initMisc(): Unit = {
     val misc: Delegator = newItem(new Delegator() {
       private def configuredItems: Array[ItemStack] = Array(
         createConfiguredCoprocessor()
@@ -225,6 +237,12 @@ object Items extends ItemAPI {
     }, "misc")
 
     //registerItem(new CardCoprocessor(misc, Tier.Four), "coprocessor")
+  }
+
+  def init() {
+    initMaterials()
+    initComponents()
+    initMisc()
 
     // Register aliases.
     for ((k, v) <- aliases) {

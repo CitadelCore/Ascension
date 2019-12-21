@@ -61,7 +61,7 @@ class Coprocessor(var stack: ItemStack, val env: EnvironmentHost) extends Manage
 
   override def onDisconnect(node: Node): Unit = { // shutdown?
     if (node == this.node) {
-      if (node.network() != null && !stopAttempted) {
+      if (!stopAttempted) {
         machine.stop()
         stopAttempted = true
       }

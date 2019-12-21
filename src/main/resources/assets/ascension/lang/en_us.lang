@@ -7,6 +7,11 @@ item.ascension.cardcoprocessor2.tip=It's a mini computer inside a computer!
 item.ascension.cardcoprocessor3.name=Coprocessor Card (Creative)
 item.ascension.cardcoprocessor3.tip=It's a mini computer inside a computer!
 
+item.ascension.cardcoprocessorcase0.name=Coprocessor Card Case (Tier 1)
+item.ascension.cardcoprocessorcase1.name=Coprocessor Card Case (Tier 2)
+item.ascension.cardcoprocessorcase2.name=Coprocessor Card Case (Tier 3)
+item.ascension.cardcoprocessorcase3.name=Coprocessor Card Case (Creative)
+
 item.ascension.cardsniffer2.name=Router Card
 item.ascension.cardsniffer2.tip=Allows sniffing and spoofing of network packets.
 

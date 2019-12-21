@@ -21,7 +21,7 @@ object DriverCardSniffer extends DriverItem {
 
   override def slot(stack: ItemStack): String = Slot.Card
 
-  override def tier(stack: ItemStack): Int = Tier.Three
+  override def tier(stack: ItemStack): Int = Tier.Two
 
   object Provider extends EnvironmentProvider {
     override def getEnvironment(stack: ItemStack): Class[_] =

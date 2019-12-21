@@ -1,8 +1,7 @@
 package space.marsden.mods.ascension.common.template
 
-import li.cil.oc.Constants
 import li.cil.oc.Settings
-import li.cil.oc.api
+import li.cil.oc.api.IMC
 import li.cil.oc.common.Slot
 import li.cil.oc.common.Tier
 import li.cil.oc.common.item.data.MicrocontrollerData
@@ -10,7 +9,9 @@ import li.cil.oc.common.template.Template
 import li.cil.oc.util.ItemUtils
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
+import space.marsden.mods.ascension.Constants
 import space.marsden.mods.ascension.common.items.data.CoprocessorData
+import space.marsden.mods.ascension.common.registries.Items
 import space.marsden.mods.ascension.server.component.Coprocessor
 
 import scala.collection.convert.WrapAsJava._
@@ -21,21 +22,22 @@ object CoprocessorTemplate extends Template {
 
   override protected def hostClass: Class[Coprocessor] = classOf[Coprocessor]
 
-  def selectTier1(stack: ItemStack): Boolean = api.Items.get(stack) == api.Items.get(Constants.ItemName.MicrocontrollerCaseTier1)
+  def selectTier1(stack: ItemStack): Boolean = Items.get(stack) == Items.get(Constants.ItemName.CoprocessorCaseTier1)
 
-  def selectTier2(stack: ItemStack): Boolean = api.Items.get(stack) == api.Items.get(Constants.ItemName.MicrocontrollerCaseTier2)
+  def selectTier2(stack: ItemStack): Boolean = Items.get(stack) == Items.get(Constants.ItemName.CoprocessorCaseTier2)
 
-  def selectTier3(stack: ItemStack): Boolean = api.Items.get(stack) == api.Items.get(Constants.ItemName.MicrocontrollerCaseTier2)
+  def selectTier3(stack: ItemStack): Boolean = Items.get(stack) == Items.get(Constants.ItemName.CoprocessorCaseTier3)
 
-  def selectTierCreative(stack: ItemStack): Boolean = api.Items.get(stack) == api.Items.get(Constants.ItemName.MicrocontrollerCaseCreative)
+  def selectTierCreative(stack: ItemStack): Boolean = Items.get(stack) == Items.get(Constants.ItemName.CoprocessorCaseCreative)
 
   def validate(inventory: IInventory): Array[AnyRef] = validateComputer(inventory)
 
   def assemble(inventory: IInventory): Array[Object] = {
-    val items = (0 until inventory.getSizeInventory).map(inventory.getStackInSlot)
-    val data = new CoprocessorData()
-    data.tier = caseTier(inventory)
-    data.items = items.drop(1).filter(_ != null).toArray
+    val tier = caseTier(inventory)
+    val items = (1 until inventory.getSizeInventory).map(inventory.getStackInSlot)
+    val data = new CoprocessorData(Constants.ItemName.Coprocessor(tier))
+    data.tier = tier
+    data.items = items.drop(1).filter(!_.isEmpty).toArray
     data.energy = Settings.get.bufferMicrocontroller.toInt
     data.maxEnergy = data.energy
     val stack = data.createItemStack()
@@ -44,18 +46,24 @@ object CoprocessorTemplate extends Template {
     Array(stack, Double.box(energy))
   }
 
-  def selectDisassembler(stack: ItemStack): Boolean = api.Items.get(stack) == api.Items.get(Constants.BlockName.Microcontroller)
+  def selectDisassembler(stack: ItemStack): Boolean = Items.get(stack).name() match {
+    case Constants.ItemName.CoprocessorCaseTier1 => true
+    case Constants.ItemName.CoprocessorCaseTier2 => true
+    case Constants.ItemName.CoprocessorCaseTier3 => true
+    case Constants.ItemName.CoprocessorCaseCreative => true
+    case _ => false
+  }
 
   def disassemble(stack: ItemStack, ingredients: Array[ItemStack]): Array[ItemStack] = {
-    val info = new MicrocontrollerData(stack)
-    val itemName = Constants.ItemName.MicrocontrollerCase(info.tier)
+    val info = new CoprocessorData(stack)
+    val itemName = Constants.ItemName.CoprocessorCase(info.tier)
 
-    Array(api.Items.get(itemName).createItemStack(1)) ++ info.components
+    Array(Items.get(itemName).createItemStack(1)) ++ info.items
   }
 
   def register() {
     // Tier 1
-    api.IMC.registerAssemblerTemplate(
+    IMC.registerAssemblerTemplate(
       "Coprocessor Card (Tier 1)",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.selectTier1",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.validate",
@@ -74,7 +82,7 @@ object CoprocessorTemplate extends Template {
       ).map(toPair)))
 
     // Tier 2
-    api.IMC.registerAssemblerTemplate(
+    IMC.registerAssemblerTemplate(
       "Coprocessor Card (Tier 2)",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.selectTier2",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.validate",
@@ -93,9 +101,9 @@ object CoprocessorTemplate extends Template {
       ).map(toPair)))
 
     // Tier 3
-    api.IMC.registerAssemblerTemplate(
+    IMC.registerAssemblerTemplate(
       "Coprocessor Card (Tier 3)",
-      "space.marsden.mods.ascension.common.template.CoprocessorTemplate.selectTier2",
+      "space.marsden.mods.ascension.common.template.CoprocessorTemplate.selectTier3",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.validate",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.assemble",
       hostClass,
@@ -112,24 +120,14 @@ object CoprocessorTemplate extends Template {
       ).map(toPair)))
 
     // Creative
-    api.IMC.registerAssemblerTemplate(
+    IMC.registerAssemblerTemplate(
       "Coprocessor Card (Creative)",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.selectTierCreative",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.validate",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.assemble",
       hostClass,
       null,
-      Array(
-        Tier.Three,
-        Tier.Three,
-        Tier.Three,
-        Tier.Three,
-        Tier.Three,
-        Tier.Three,
-        Tier.Three,
-        Tier.Three,
-        Tier.Three
-      ),
+      null,
       asJavaIterable(Iterable(
         (Slot.Card, Tier.Three),
         (Slot.Card, Tier.Three),
@@ -141,7 +139,7 @@ object CoprocessorTemplate extends Template {
       ).map(toPair)))
 
     // Disassembler
-    api.IMC.registerDisassemblerTemplate(
+    IMC.registerDisassemblerTemplate(
       "Coprocessor",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.selectDisassembler",
       "space.marsden.mods.ascension.common.template.CoprocessorTemplate.disassemble")
@@ -152,5 +150,14 @@ object CoprocessorTemplate extends Template {
     else if (caseTier(inventory) == Tier.Four) 9001 // Creative
     else 4
 
-  override protected def caseTier(inventory: IInventory): Int = ItemUtils.caseTier(inventory.getStackInSlot(0))
+  override protected def caseTier(inventory: IInventory): Int = {
+    val stack = inventory.getStackInSlot(0)
+    val descriptor = Items.get(stack)
+
+    if (descriptor == Items.get(Constants.ItemName.CoprocessorCaseTier1)) Tier.One
+    else if (descriptor == Items.get(Constants.ItemName.CoprocessorCaseTier2)) Tier.Two
+    else if (descriptor == Items.get(Constants.ItemName.CoprocessorCaseTier3)) Tier.Three
+    else if (descriptor == Items.get(Constants.ItemName.CoprocessorCaseCreative)) Tier.Four
+    else Tier.None
+  }
 }
