@@ -4,9 +4,7 @@ import li.cil.oc.Settings
 import li.cil.oc.api.IMC
 import li.cil.oc.common.Slot
 import li.cil.oc.common.Tier
-import li.cil.oc.common.item.data.MicrocontrollerData
 import li.cil.oc.common.template.Template
-import li.cil.oc.util.ItemUtils
 import net.minecraft.inventory.IInventory
 import net.minecraft.item.ItemStack
 import space.marsden.mods.ascension.Constants
@@ -46,12 +44,15 @@ object CoprocessorTemplate extends Template {
     Array(stack, Double.box(energy))
   }
 
-  def selectDisassembler(stack: ItemStack): Boolean = Items.get(stack).name() match {
-    case Constants.ItemName.CoprocessorCaseTier1 => true
-    case Constants.ItemName.CoprocessorCaseTier2 => true
-    case Constants.ItemName.CoprocessorCaseTier3 => true
-    case Constants.ItemName.CoprocessorCaseCreative => true
-    case _ => false
+  def selectDisassembler(stack: ItemStack): Boolean = {
+    val descriptor = Items.get(stack)
+    if (descriptor == Items.get(Constants.ItemName.CoprocessorTier1) ||
+        descriptor == Items.get(Constants.ItemName.CoprocessorTier2) ||
+        descriptor == Items.get(Constants.ItemName.CoprocessorTier3) ||
+        descriptor == Items.get(Constants.ItemName.CoprocessorCreative)
+    ) return true
+
+    false
   }
 
   def disassemble(stack: ItemStack, ingredients: Array[ItemStack]): Array[ItemStack] = {

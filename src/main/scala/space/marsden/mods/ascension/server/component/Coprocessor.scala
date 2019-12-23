@@ -20,6 +20,7 @@ import space.marsden.mods.ascension.common.inventory.CoprocessorInventory
 import space.marsden.mods.ascension.server.component.data.CoprocessorFuses
 
 import scala.collection.convert.WrapAsJava._
+import scala.collection.mutable.ListBuffer
 
 class Coprocessor(var stack: ItemStack, val env: EnvironmentHost) extends ManagedEnvironmentWithComponentConnector with MachineHost with CoprocessorInventory with ComponentInventory with StateAware with DeviceInfo {
   lazy val machine: li.cil.oc.api.machine.Machine = Machine.create(this)
